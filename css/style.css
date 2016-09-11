@@ -43,14 +43,13 @@ a {
     top: 50%;
     left: 40%;
 }*/
-button {
-    width: 100px;
+button{
+    width: 80px;
     height: 50px;
 }
-
-.button {
+.button{
     position: absolute;
-    bottom: 0;
+    bottom:0;
 }
 .charector {
     left: 6%;

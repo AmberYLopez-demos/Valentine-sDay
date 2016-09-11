@@ -7,6 +7,23 @@
     <link href="css/pageA.css" rel="stylesheet" />
     <script src="js/jquery.js"></script>
     <script src="js/Swipe.js"></script>
+    <script src="js/boyWalk.js"></script>
+
+    <style>
+        button{
+            width: 80px;
+            height: 50px;
+        }
+        .button{
+            position: absolute;
+            bottom:0;
+        }
+        /* 人物暂停 */
+        .pauseWalk {
+            -webkit-animation-play-state: paused;
+            -moz-animation-play-state: paused;
+        }
+    </style>
 </head>
 
 
@@ -23,41 +40,46 @@
         <li> 页面2 </li>
         <li> 页面3 </li>
     </ul>
-    <div id="boy" class="charector slowWalk"></div>
-    <div class="button">
-        <button>点击开始走路</button>
-    </div>
-
+    <div id="boy" class="charector"></div>
 </div>
+<div class="button">
+    <button>开始</button>
+</div>
+</body>
 <script type="text/javascript">
-    var swipe = Swipe($("#content"));
-    // 获取数据
-    var getValue = function(className) {
-        var $elem = $('' + className + '');
-        // 走路的路线坐标
-        return {
-            height: $elem.height(),
-            top: $elem.position().top
-        };
-    };
-    // 路的Y轴
-    var pathY = function() {
-        var data = getValue('.a_background_middle');
-        return data.top + data.height / 2;
-    }();
-    var $boy = $("#boy");
-    var boyHeight = $boy.height();
-    // 修正小男孩的正确位置
-    $boy.css({
-        top: pathY - boyHeight + 25
-    });
-    // 绑定一个点击事件，开始走路
-    $("button").click(function() {
-        // left的变化
-            $boy.animate({
-                'left': $("#content").width() + 'px',
-            }, 10000, 'linear', function() {});
+    $(function() {
+
+        var container = $("#content");
+        var swipe = Swipe(container);
+        // 页面滚动到指定的位置
+        function scrollTo(time, proportionX) {
+            var distX = container.width() * proportionX;
+            swipe.scrollTo(distX, time);
+        }
+
+        ////////////////////////////////////////////////////////
+        //=================== 动画处理 =======================//
+        ////////////////////////////////////////////////////////
+
+        var boy = BoyWalk();
+
+        // 开始
+        $("button:first").click(function() {
+
+
+            // 开始第一次走路
+            boy.walkTo(2000, 0.2)
+                    .then(function() {
+                        // 第一次走路完成
+                        // 开始页面滚动
+                        scrollTo(5000, 1);
+                    }).then(function() {
+                // 第二次走路
+                return boy.walkTo(5000, 0.5);
+            });
         });
+
+    })
 </script>
 </body>
 </html>
