@@ -13,7 +13,6 @@ li {
 #content {
     width: 100%;
     height: 100%;
-    /* top: 20%; */
     overflow: hidden;
     position: absolute;
 }
@@ -23,26 +22,11 @@ li {
 }
 
 .content-wrap > li {
-    /*background: #CAE1FF;
-    color: red;*/
     float: left;
     overflow: hidden;
     position: relative;
 }
 
-/*li:nth-child(2) {
-    background: #9BCD9B;
-}
-
-li:nth-child(3) {
-    background: yellow;
-}
-
-a {
-    position: absolute;
-    top: 50%;
-    left: 40%;
-}*/
 button{
     width: 80px;
     height: 50px;
@@ -71,6 +55,17 @@ button{
     -moz-animation-duration: 950ms;
     -moz-animation-iteration-count: infinite;
     -moz-animation-timing-function: steps(1, start)
+}
+
+.slowFlolerWalk {
+    -webkit-animation-name: person-floler-slow;
+    -webkit-animation-duration: 950ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: step-start;
+    -moz-animation-name: person-floler-slow;
+    -moz-animation-duration: 950ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: step-start;
 }
 /*普通慢走*/
 
@@ -107,5 +102,42 @@ button{
     }
     100% {
         background-position: -0px -291px;
+    }
+}
+/*带花*/
+
+@-webkit-keyframes person-floler-slow {
+    0% {
+        background-position: -453px -0px;
+    }
+    25% {
+        background-position: -904px -0px;
+    }
+    50% {
+        background-position: -451px -0px;
+    }
+    75% {
+        background-position: -753px -0px;
+    }
+    100% {
+        background-position: -300px -0px;
+    }
+}
+
+@-moz-keyframes person-floler-slow {
+    0% {
+        background-position: -453px -0px;
+    }
+    25% {
+        background-position: -904px -0px;
+    }
+    50% {
+        background-position: -451px -0px;
+    }
+    75% {
+        background-position: -753px -0px;
+    }
+    100% {
+        background-position: -300px -0px;
     }
 }

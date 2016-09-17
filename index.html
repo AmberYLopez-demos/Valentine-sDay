@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <title>Valentine's Day</title>
     <link href="css/style.css" type="text/css" rel="stylesheet"/>
-    <link href="css/pageA.css" rel="stylesheet" />
-    <link href="css/pageB.css" rel="stylesheet" />
+    <link href="css/pageA.css" rel="stylesheet"/>
+    <link href="css/pageB.css" rel="stylesheet"/>
     <script src="js/jquery.js"></script>
-    <script src="js/Swipe.js"></script>
-    <script src="js/boyWalk.js"></script>
 
     <style>
-        button{
+        button {
             width: 80px;
             height: 50px;
         }
-        .button{
+
+        .button {
             position: absolute;
-            bottom:0;
+            bottom: 0;
         }
+
         /* 人物暂停 */
         .pauseWalk {
             -webkit-animation-play-state: paused;
             -moz-animation-play-state: paused;
         }
+
         /*-------- 太阳自转以及动画 --------*/
         #sun {
             background: url("./images/sun.png") no-repeat;
@@ -61,6 +62,7 @@
             }
 
         }
+
         /* 天空云 */
 
         .cloud {
@@ -76,7 +78,6 @@
             background: url("images/cloud1.png");
         }
 
-
         .cloud2 {
             width: 301px;
             height: 140px;
@@ -84,7 +85,7 @@
             background: url("images/cloud2.png");
         }
 
-        .cloud1Anim{
+        .cloud1Anim {
             -webkit-animation-name: smallCloud;
             -webkit-animation-duration: 30s;
             -webkit-animation-iteration: infinite;
@@ -93,7 +94,7 @@
             -moz-animation-iteration: infinite;
         }
 
-        .cloud2Anim{
+        .cloud2Anim {
             -webkit-animation-name: largeCloud;
             -webkit-animation-duration: 60s;
             -webkit-animation-iteration: infinite;
@@ -101,7 +102,6 @@
             -moz-animation-duration: 60s;
             -moz-animation-iteration: infinite;
         }
-
 
         @-webkit-keyframes smallCloud {
             /*？*/
@@ -172,8 +172,10 @@
                 <!-- 灯 -->
                 <div class="lamp"></div>
             </div>
+            <!--鸟-->
+            <div class="bird"></div>
         </li>
-        <li> 页面3 </li>
+        <li> 页面3</li>
     </ul>
     <div id="boy" class="charector"></div>
 </div>
@@ -181,7 +183,7 @@
     <button>开始</button>
 </div>
 <script type="text/javascript">
-    $(function() {
+    $(function () {
 
         var container = $("#content");
         var swipe = Swipe(container);
@@ -192,14 +194,71 @@
         }
 
         ////////////////////////////////////////////////////////
-        // ================== 动画处理 ====================== //
+        // ================= 动画处理 ======================= //
         ////////////////////////////////////////////////////////
 
-        //用来临时调整页面
+        // 用来临时调整页面
         swipe.scrollTo(container.width(), 0);
 
-        var boy = BoyWalk();
+        var boy = BoyWalk()
+
+        /////////
+        //右边飞鸟 //
+        /////////
+        var bird = {
+            elem: $(".bird"),
+            fly: function () {
+                this.elem.addClass('birdFly')
+                this.elem.animate({
+                    right: container.width()
+                }, 15000, 'linear');
+            }
+        };
+
+
+        function startRun() {
+
+            boy.walkTo(2000, 0.5)
+                    .then(function () {
+                        //暂停走路
+                        boy.stopWalk()
+                    })
+                    .then(function () {
+                        // 开门
+                        return openDoor();
+                    })
+                    .then(function () {
+                        // 开灯
+                        lamp.bright();
+                    })
+                    .then(function () {
+                        // 进商店
+                        return boy.toShop(2000);
+                    }).then(function () {
+                // 取花
+                return boy.talkFlower();
+            }).then(function () {
+                // 飞鸟
+                bird.fly();
+            }).then(function () {
+                // 出商店
+                return boy.outShop(2000);
+            }).then(function () {
+                // 关门
+                return shutDoor();
+            }).then(function () {
+                // 灯暗
+                lamp.dark();
+            });
+        }
+
+
+        // 开始
+        $("button:first").click(startRun);
     });
 </script>
+<script src="js/boyWalk.js"></script>
+<script src="js/Swipe.js"></script>
+
 </body>
 </html>
